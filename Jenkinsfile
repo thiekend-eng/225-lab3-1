@@ -54,6 +54,16 @@ pipeline {
                     sh "kubectl get all"
                 }
             }
+             post {
+        success {
+            slackSend([color: "good", message: "Build Completed: ${env.JOB_NAME} ${env.BUILD_NUMBER}"])
+        }
+        unstable {
+            slackSend([color: "warning", message: "Build Completed: ${env.JOB_NAME} ${env.BUILD_NUMBER}"])
+        }
+        failure {
+            slackSend([color: "danger", message: "Build Completed: ${env.JOB_NAME} ${env.BUILD_NUMBER}"])
+    }
         }
     }
 }
